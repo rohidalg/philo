@@ -6,7 +6,11 @@ RM = rm -rf
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
 
-SRCs = philosophers.c
+SRCs = philo.c \
+		utils.c \
+		options.c \
+
+
 
 DIR_OBJs = OBJECTS
 
