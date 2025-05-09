@@ -6,7 +6,7 @@
 /*   By: rohidalg <rohidalg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 10:24:05 by rohidalg          #+#    #+#             */
-/*   Updated: 2025/05/08 13:50:10 by rohidalg         ###   ########.fr       */
+/*   Updated: 2025/05/09 10:47:03 by rohidalg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct s_philo
 {
 	int				id;
 	int				time_to_die;
-    int             eaten;
+    int             eating;
 	int				meals_eaten;
 	long			last_meal_time;
     int             status;
@@ -56,6 +56,7 @@ typedef struct s_data
 	pthread_mutex_t	*print_mutex;
 	pthread_mutex_t	*lock;
 	pthread_mutex_t	*forks;
+	pthread_t		*tid;
 }					t_data;
 
 //------------------------philo.c------------------------//
@@ -76,6 +77,8 @@ int ft_usleep(__useconds_t time);
 //------------------------options.c------------------------//
 void	take_forks(t_philo *philo);
 void	drop_forks(t_philo *philo);
+void	eat(t_philo *philo);
+
 
 
 

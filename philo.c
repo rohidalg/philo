@@ -6,7 +6,7 @@
 /*   By: rohidalg <rohidalg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 09:33:26 by rohidalg          #+#    #+#             */
-/*   Updated: 2025/05/08 13:21:47 by rohidalg         ###   ########.fr       */
+/*   Updated: 2025/05/09 11:55:59 by rohidalg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	i_philos(t_data *data)
 		data->philos[i].data = data;
 		data->philos[i].id = i + 1;
 		data->philos[i].time_to_die = data->time_to_die;
-		data->philos[i].eaten = 0;
+		data->philos[i].eating = 0;
 		data->philos[i].meals_eaten = 0;
 		data->philos[i].status = 0;
 		pthread_mutex_init(&data->philos[i].lock, 0);
@@ -108,7 +108,6 @@ int	main(int argc, char **argv)
 	i_philos(&data);
 }
 
-
 // 🧠 Funciones de memoria
 // memset(void *s, int c, size_t n)
 // Rellena los primeros n bytes del bloque de memoria apuntado por s con el byte c.
@@ -140,7 +139,7 @@ int	main(int argc, char **argv)
 // 👉 Se usa para medir tiempos con precisión.
 
 // 🧵 Funciones de hilos (pthread)
-// pthread_create(pthread_t *thread, const pthread_attr_t *attr,void *(*start_routine)(void *), void *arg)
+// pthread_create(pthread_t *thread,	const pthread_attr_t *attr,void *(*start_routine)(void *), void *arg)
 // Crea un nuevo hilo que ejecuta la función start_routine con el argumento arg.
 
 // pthread_detach(pthread_t thread)
