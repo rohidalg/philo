@@ -6,7 +6,7 @@
 /*   By: rohidalg <rohidalg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 11:07:17 by rohidalg          #+#    #+#             */
-/*   Updated: 2025/05/08 13:48:43 by rohidalg         ###   ########.fr       */
+/*   Updated: 2025/05/12 11:55:21 by rohidalg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ int	ft_strcmp(char *s1, char *s2)
 
 int	ft_atoi(const char *s)
 {
-	int i;
-	int isneg;
-	int sum;
+	int	i;
+	int	isneg;
+	int	sum;
 
 	i = 0;
 	isneg = 1;
@@ -53,11 +53,27 @@ int	ft_atoi(const char *s)
 	return (sum * isneg);
 }
 
-int ft_usleep(__useconds_t time)
+int	ft_usleep(__useconds_t time)
 {
-	uint64_t start;
+	uint64_t	start;
+
 	start = ft_get_time();
-	while((ft_get_time() - start) < time)
+	while ((ft_get_time() - start) < time)
 		usleep(time / 10);
-	return(0);
+	return (0);
+}
+
+int	ft_exit(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->n_philos)
+	{
+		pthread_mutex_destroy(&data->forks);
+		pthread_mutex_destroy(&data->philos[i].lock);
+	}
+	pthread_mutex_destroy(&data->print_mutex);
+	pthread_mutex_destroy(&data->lock);
+	return (1);
 }
