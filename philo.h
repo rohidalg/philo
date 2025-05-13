@@ -6,7 +6,7 @@
 /*   By: rohidalg <rohidalg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 10:24:05 by rohidalg          #+#    #+#             */
-/*   Updated: 2025/05/12 11:57:37 by rohidalg         ###   ########.fr       */
+/*   Updated: 2025/05/13 13:13:51 by rohidalg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 typedef struct s_philo
 {
 	int				id;
-	int				time_to_die;
+	uint64_t		time_to_die;
 	int				eating;
 	int				meals_eaten;
 	long			last_meal_time;
@@ -46,9 +46,9 @@ typedef struct s_data
 {
 	int				dead;
 	int				n_philos;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
+	uint64_t		time_to_die;
+	uint64_t		time_to_eat;
+	uint64_t		time_to_sleep;
 	int				meals_required;
 	int				finish;
 	long			start_time;
@@ -71,13 +71,14 @@ int					ft_strcmp(char *s1, char *s2);
 int					ft_atoi(const char *s);
 int					ft_usleep(__useconds_t time);
 int					ft_exit(t_data *data);
+int					ft_malloc(t_data *data);
 
 //------------------------options.c------------------------//
 void				take_forks(t_philo *philo);
 void				drop_forks(t_philo *philo);
 void				eat(t_philo *philo);
-void				waiter(void *philo_pointer);
-void				actions(void *philo_pointer);
+void				*waiter(void *philo_pointer);
+void				*actions(void *philo_pointer);
 int					i_dinner(t_data *data);
 
 #endif

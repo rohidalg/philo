@@ -6,7 +6,7 @@
 /*   By: rohidalg <rohidalg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 09:33:26 by rohidalg          #+#    #+#             */
-/*   Updated: 2025/05/12 11:58:02 by rohidalg         ###   ########.fr       */
+/*   Updated: 2025/05/13 13:19:30 by rohidalg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ uint64_t	ft_get_time(void)
 	struct timeval	tv;
 
 	if (gettimeofday(&tv, 0))
-		return ("ft_get_time() FAILUREN\n", 0);
+		return (printf("ft_get_time() FAILUREN\n"));
 	return ((tv.tv_sec * (uint64_t)1000) + (tv.tv_usec / 1000));
 }
 
@@ -29,11 +29,11 @@ void	ft_write(char *str, t_philo *philo)
 	time = ft_get_time() - philo->data->start_time;
 	if (philo->data->dead == 0 && ft_strcmp(DIED, str) == 0)
 	{
-		printf("%llu %d %s\n", time, philo->id, str);
+		printf("%u %d %s\n", time, philo->id, str);
 		philo->data->dead = 1;
 	}
 	if (!philo->data->dead)
-		printf("%llu %d %s\n", time, philo->id, str);
+		printf("%u %d %s\n", time, philo->id, str);
 	pthread_mutex_unlock(philo->data->print_mutex);
 }
 
@@ -50,7 +50,7 @@ void	i_philos(t_data *data)
 		data->philos[i].eating = 0;
 		data->philos[i].meals_eaten = 0;
 		data->philos[i].status = 0;
-		pthread_mutex_init(&data->philos[i].lock, 0);
+		pthread_mutex_init(data->philos[i].lock, 0);
 		i++;
 	}
 }
@@ -70,8 +70,8 @@ int	i_data(t_data *data, int argc, char **argv)
 		return (printf("INVALID IMPUT\n"));
 	data->dead = 0;
 	data->finish = 0;
-	pthread_mutex_init(&data->print_mutex, 0);
-	pthread_mutex_init(&data->lock, 0);
+	pthread_mutex_init(data->print_mutex, 0);
+	pthread_mutex_init(data->lock, 0);
 	return (0);
 }
 
@@ -104,9 +104,13 @@ int	main(int argc, char **argv)
 	if (argc < 5 || argc > 6)
 		return (1);
 	i_data(&data, argc, argv);
+	ft_malloc(&data);
 	i_forks(&data);
 	i_philos(&data);
 }
+
+// filosofos morir comer dormir
+// [number_of_times_each_philosopher_must_eat]
 
 // 🧠 Funciones de memoria
 // memset(void *s, int c, size_t n)
@@ -139,7 +143,8 @@ int	main(int argc, char **argv)
 // 👉 Se usa para medir tiempos con precisión.
 
 // 🧵 Funciones de hilos (pthread)
-// pthread_create(pthread_t *thread,	const pthread_attr_t *attr,void *(*start_routine)(void *), void *arg)
+// pthread_create(pthread_t *thread,	const pthread_attr_t *attr,void *(*start_routine)(void *),
+//	void *arg)
 // Crea un nuevo hilo que ejecuta la función start_routine con el argumento arg.
 
 // pthread_detach(pthread_t thread)
