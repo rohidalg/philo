@@ -6,7 +6,7 @@
 /*   By: rohidalg <rohidalg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 11:07:17 by rohidalg          #+#    #+#             */
-/*   Updated: 2025/05/13 13:33:29 by rohidalg         ###   ########.fr       */
+/*   Updated: 2025/06/04 11:15:08 by rohidalg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,10 @@ int	ft_exit(t_data *data)
 	while (i < data->n_philos)
 	{
 		pthread_mutex_destroy(data->forks);
-		pthread_mutex_destroy(data->philos[i].lock);
+		pthread_mutex_destroy(&data->philos[i].lock);
 	}
-	pthread_mutex_destroy(data->print_mutex);
-	pthread_mutex_destroy(data->lock);
+	pthread_mutex_destroy(&data->print_mutex);
+	pthread_mutex_destroy(&data->lock);
 	if (data->tid)
 		free(data->tid);
 	if (data->philos)
@@ -89,10 +89,10 @@ int	ft_malloc(t_data *data)
 	data->tid = malloc(sizeof(pthread_t) * data->n_philos);
 	if (!data->tid)
 		return (ft_exit(data));
-	data->philos = malloc(sizeof(pthread_t) * data->n_philos);
+	data->philos = malloc(sizeof(t_philo) * data->n_philos);
 	if (!data->philos)
 		return (ft_exit(data));
-	data->forks = malloc(sizeof(pthread_t) * data->n_philos);
+	data->forks = malloc(sizeof(pthread_mutex_t) * data->n_philos);
 	if (!data->forks)
 		return (ft_exit(data));
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: rohidalg <rohidalg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 10:24:05 by rohidalg          #+#    #+#             */
-/*   Updated: 2025/05/13 13:13:51 by rohidalg         ###   ########.fr       */
+/*   Updated: 2025/06/04 10:29:36 by rohidalg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_philo
 	int				meals_eaten;
 	long			last_meal_time;
 	int				status;
-	pthread_mutex_t	*lock;
+	pthread_mutex_t	lock;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
 	// pthread_t		thread;
@@ -53,8 +53,8 @@ typedef struct s_data
 	int				finish;
 	long			start_time;
 	t_philo			*philos;
-	pthread_mutex_t	*print_mutex;
-	pthread_mutex_t	*lock;
+	pthread_mutex_t	print_mutex;
+	pthread_mutex_t	lock;
 	pthread_mutex_t	*forks;
 	pthread_t		*tid;
 }					t_data;

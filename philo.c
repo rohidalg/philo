@@ -6,7 +6,7 @@
 /*   By: rohidalg <rohidalg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 09:33:26 by rohidalg          #+#    #+#             */
-/*   Updated: 2025/05/13 13:19:30 by rohidalg         ###   ########.fr       */
+/*   Updated: 2025/06/04 11:39:52 by rohidalg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	ft_write(char *str, t_philo *philo)
 {
 	int	time;
 
-	pthread_mutex_lock(philo->data->print_mutex);
+	pthread_mutex_lock(&philo->data->print_mutex);
 	time = ft_get_time() - philo->data->start_time;
 	if (philo->data->dead == 0 && ft_strcmp(DIED, str) == 0)
 	{
@@ -34,7 +34,7 @@ void	ft_write(char *str, t_philo *philo)
 	}
 	if (!philo->data->dead)
 		printf("%u %d %s\n", time, philo->id, str);
-	pthread_mutex_unlock(philo->data->print_mutex);
+	pthread_mutex_unlock(&philo->data->print_mutex);
 }
 
 void	i_philos(t_data *data)
@@ -50,7 +50,7 @@ void	i_philos(t_data *data)
 		data->philos[i].eating = 0;
 		data->philos[i].meals_eaten = 0;
 		data->philos[i].status = 0;
-		pthread_mutex_init(data->philos[i].lock, 0);
+		pthread_mutex_init(&data->philos[i].lock, 0);
 		i++;
 	}
 }
@@ -70,8 +70,8 @@ int	i_data(t_data *data, int argc, char **argv)
 		return (printf("INVALID IMPUT\n"));
 	data->dead = 0;
 	data->finish = 0;
-	pthread_mutex_init(data->print_mutex, 0);
-	pthread_mutex_init(data->lock, 0);
+	pthread_mutex_init(&data->print_mutex, 0);
+	pthread_mutex_init(&data->lock, 0);
 	return (0);
 }
 
@@ -107,6 +107,8 @@ int	main(int argc, char **argv)
 	ft_malloc(&data);
 	i_forks(&data);
 	i_philos(&data);
+	ft_exit(&data);
+	return (0);
 }
 
 // filosofos morir comer dormir

@@ -6,7 +6,7 @@
 /*   By: rohidalg <rohidalg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 13:25:54 by rohidalg          #+#    #+#             */
-/*   Updated: 2025/05/13 12:12:05 by rohidalg         ###   ########.fr       */
+/*   Updated: 2025/06/04 10:32:47 by rohidalg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,14 @@ void	drop_forks(t_philo *philo)
 void	eat(t_philo *philo)
 {
 	take_forks(philo);
-	pthread_mutex_lock(philo->lock);
+	pthread_mutex_lock(&philo->lock);
 	philo->eating = 1;
 	philo->time_to_die = ft_get_time() + philo->data->time_to_die;
 	ft_write(EATING, philo);
 	philo->meals_eaten++;
 	ft_usleep(philo->data->time_to_eat);
 	philo->eating = 0;
-	pthread_mutex_unlock(philo->lock);
+	pthread_mutex_unlock(&philo->lock);
 	drop_forks(philo);
 }
 
@@ -47,17 +47,17 @@ void	*waiter(void *philo_pointer)
 	t_philo	*philo;
 
 	philo = (t_philo *)philo_pointer;
-	pthread_mutex_lock(philo->lock);
+	pthread_mutex_lock(&philo->lock);
 	if (ft_get_time() >= philo->time_to_die && philo->eating == 0)
 		ft_write(DIED, philo);
 	if (philo->meals_eaten == philo->data->meals_required)
 	{
-		pthread_mutex_lock(philo->data->lock);
+		pthread_mutex_lock(&philo->data->lock);
 		philo->data->finish++;
 		philo->meals_eaten++;
-		pthread_mutex_unlock(philo->data->lock);
+		pthread_mutex_unlock(&philo->data->lock);
 	}
-	pthread_mutex_unlock(philo->lock);
+	pthread_mutex_unlock(&philo->lock);
 	return (0);
 }
 
