@@ -6,7 +6,7 @@
 /*   By: rohidalg <rohidalg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 11:07:17 by rohidalg          #+#    #+#             */
-/*   Updated: 2025/06/04 11:15:08 by rohidalg         ###   ########.fr       */
+/*   Updated: 2025/06/05 10:19:06 by rohidalg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,17 +68,25 @@ int	ft_exit(t_data *data)
 	int	i;
 
 	i = 0;
+	//printf("antes de while\n");
+	// NUNCA SALE DEL WHILE
 	while (i < data->n_philos)
 	{
+		//printf("dentro de while\n");
 		pthread_mutex_destroy(data->forks);
 		pthread_mutex_destroy(&data->philos[i].lock);
+		i++;
 	}
+	//printf("sali del while\n");
 	pthread_mutex_destroy(&data->print_mutex);
 	pthread_mutex_destroy(&data->lock);
+	//printf("antes de free tid\n");
 	if (data->tid)
 		free(data->tid);
+	//printf("antes de free philos\n");
 	if (data->philos)
 		free(data->philos);
+	//printf("antes de free forks\n");
 	if (data->forks)
 		free(data->forks);
 	return (1);

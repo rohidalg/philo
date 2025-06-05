@@ -6,7 +6,7 @@
 /*   By: rohidalg <rohidalg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 10:24:05 by rohidalg          #+#    #+#             */
-/*   Updated: 2025/06/04 10:29:36 by rohidalg         ###   ########.fr       */
+/*   Updated: 2025/06/05 12:02:56 by rohidalg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,9 @@ int					ft_malloc(t_data *data);
 //------------------------options.c------------------------//
 void				take_forks(t_philo *philo);
 void				drop_forks(t_philo *philo);
+int					one_philo(t_data *data);
 void				eat(t_philo *philo);
+void				*manager(void *data_pointer);
 void				*waiter(void *philo_pointer);
 void				*actions(void *philo_pointer);
 int					i_dinner(t_data *data);

@@ -6,7 +6,7 @@
 /*   By: rohidalg <rohidalg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 09:33:26 by rohidalg          #+#    #+#             */
-/*   Updated: 2025/06/04 11:39:52 by rohidalg         ###   ########.fr       */
+/*   Updated: 2025/06/05 10:26:51 by rohidalg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,14 +99,22 @@ int	i_forks(t_data *data)
 
 int	main(int argc, char **argv)
 {
+	//printf("antes de empezar\n");
+
 	t_data	data;
 
 	if (argc < 5 || argc > 6)
 		return (1);
+	//printf("antes de i_data\n");
 	i_data(&data, argc, argv);
+	//printf("antes de mallloc\n");
 	ft_malloc(&data);
+	//printf("antes de i_forks\n");
 	i_forks(&data);
+	//printf("antes de i_philos\n");
 	i_philos(&data);
+	i_dinner(&data);
+	//printf("antes de salir\n");
 	ft_exit(&data);
 	return (0);
 }
