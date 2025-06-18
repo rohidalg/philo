@@ -6,7 +6,7 @@
 /*   By: rohidalg <rohidalg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 13:25:54 by rohidalg          #+#    #+#             */
-/*   Updated: 2025/06/05 12:03:01 by rohidalg         ###   ########.fr       */
+/*   Updated: 2025/06/18 15:58:18 by rohidalg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,40 +57,56 @@ void	eat(t_philo *philo)
 
 void	*manager(void *data_pointer)
 {
-	t_philo	*philo;
+	t_data	*data = ((t_philo *)data_pointer)->data;
+	int		i;
+	int		philos_done;
 
-	philo = (t_philo *)data_pointer;
-	pthread_mutex_lock(&philo->data->print_mutex);
-	printf("data val: %d", philo->data->dead);
-	pthread_mutex_unlock(&philo->data->print_mutex);
-	while (philo->data->dead == 0)
+	while (1)
 	{
-		pthread_mutex_lock(&philo->lock);
-		if (philo->data->finish >= philo->data->n_philos)
-			philo->data->dead = 1;
-		pthread_mutex_unlock(&philo->lock);
+		i = 0;
+		philos_done = 0;
+		while (i < data->n_philos)
+		{
+			pthread_mutex_lock(&data->philos[i].meal_mutex);
+			if (data->philos[i].meals_eaten >= data->meals_required)
+				philos_done++;
+			pthread_mutex_unlock(&data->philos[i].meal_mutex);
+			i++;
+		}
+		if (philos_done == data->n_philos)
+		{
+			pthread_mutex_lock(&data->print_mutex);
+			data->dead = 1; // Usamos `dead` para terminar hilos
+			pthread_mutex_unlock(&data->print_mutex);
+			break;
+		}
+		usleep(1000); // Pausa pequeña
 	}
-	return ((void *)0);
+	return (NULL);
 }
+
 
 void	*waiter(void *philo_pointer)
 {
 	t_philo	*philo;
 
 	philo = (t_philo *)philo_pointer;
-	pthread_mutex_lock(&philo->lock);
-	if (ft_get_time() >= philo->time_to_die && philo->eating == 0)
-		ft_write(DIED, philo);
-	if (philo->meals_eaten == philo->data->meals_required)
+	while (philo->data->dead == 0)
 	{
-		pthread_mutex_lock(&philo->data->lock);
-		philo->data->finish++;
-		philo->meals_eaten++;
-		pthread_mutex_unlock(&philo->data->lock);
+		pthread_mutex_lock(&philo->lock);
+		if (ft_get_time() >= philo->time_to_die && philo->eating == 0)
+		{
+			ft_write(DIED, philo);
+			philo->data->dead = 1;
+			pthread_mutex_unlock(&philo->lock);
+			return (0);
+		}
+		pthread_mutex_unlock(&philo->lock);
+		usleep(100);
 	}
-	pthread_mutex_unlock(&philo->lock);
-	return (0);
+	return (NULL);
 }
+
 
 void	*actions(void *philo_pointer)
 {
@@ -124,6 +140,7 @@ int	i_dinner(t_data *data)
 		if (pthread_create(&t0, 0, &manager, &data->philos[0]))
 			return (ft_exit(data));
 	}
+	// printf("meals_required == %d\n", data->meals_required);
 	while (i < data->n_philos)
 	{
 		// printf("entre en el while de i_dinner");

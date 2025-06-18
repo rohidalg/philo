@@ -6,7 +6,7 @@
 /*   By: rohidalg <rohidalg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 09:33:26 by rohidalg          #+#    #+#             */
-/*   Updated: 2025/06/05 10:26:51 by rohidalg         ###   ########.fr       */
+/*   Updated: 2025/06/16 11:41:54 by rohidalg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,8 @@ int	main(int argc, char **argv)
 	i_forks(&data);
 	//printf("antes de i_philos\n");
 	i_philos(&data);
+	if (data.n_philos == 1)
+		return(one_philo(&data));
 	i_dinner(&data);
 	//printf("antes de salir\n");
 	ft_exit(&data);
