@@ -6,7 +6,7 @@
 /*   By: rohidalg <rohidalg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 11:07:17 by rohidalg          #+#    #+#             */
-/*   Updated: 2025/06/05 10:19:06 by rohidalg         ###   ########.fr       */
+/*   Updated: 2025/06/19 15:31:51 by rohidalg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,43 +65,46 @@ int	ft_usleep(__useconds_t time)
 
 int	ft_exit(t_data *data)
 {
-	int	i;
+	int	i = 0;
 
-	i = 0;
-	//printf("antes de while\n");
-	// NUNCA SALE DEL WHILE
 	while (i < data->n_philos)
 	{
-		//printf("dentro de while\n");
-		pthread_mutex_destroy(data->forks);
-		pthread_mutex_destroy(&data->philos[i].lock);
+		pthread_mutex_destroy(&data->forks[i]);        
+		pthread_mutex_destroy(&data->philos[i].lock);   
 		i++;
 	}
-	//printf("sali del while\n");
 	pthread_mutex_destroy(&data->print_mutex);
 	pthread_mutex_destroy(&data->lock);
-	//printf("antes de free tid\n");
+
 	if (data->tid)
 		free(data->tid);
-	//printf("antes de free philos\n");
 	if (data->philos)
 		free(data->philos);
-	//printf("antes de free forks\n");
 	if (data->forks)
 		free(data->forks);
+
 	return (1);
 }
+
 
 int	ft_malloc(t_data *data)
 {
 	data->tid = malloc(sizeof(pthread_t) * data->n_philos);
 	if (!data->tid)
-		return (ft_exit(data));
+		return (1);
 	data->philos = malloc(sizeof(t_philo) * data->n_philos);
 	if (!data->philos)
-		return (ft_exit(data));
+	{
+		free(data->tid);
+		return (1);
+	}
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->n_philos);
 	if (!data->forks)
-		return (ft_exit(data));
+	{
+		free(data->tid);
+		free(data->philos);
+		return (1);
+	}
 	return (0);
 }
+

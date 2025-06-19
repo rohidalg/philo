@@ -6,7 +6,7 @@
 /*   By: rohidalg <rohidalg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 09:33:26 by rohidalg          #+#    #+#             */
-/*   Updated: 2025/06/16 11:41:54 by rohidalg         ###   ########.fr       */
+/*   Updated: 2025/06/19 16:07:53 by rohidalg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,24 @@ int	i_data(t_data *data, int argc, char **argv)
 		data->meals_required = (int)ft_atoi(argv[5]);
 	else
 		data->meals_required = -1;
+	printf("DEBUG INPUTS:\n");
+	printf("n_philos = %d\n", data->n_philos);
+	printf("time_to_die = %ld\n", data->time_to_die);
+	printf("time_to_eat = %ld\n", data->time_to_eat);
+	printf("time_to_sleep = %ld\n", data->time_to_sleep);
 	if (data->n_philos <= 0 || data->time_to_die <= 0 || data->time_to_eat <= 0
-		|| data->time_to_sleep <= 0)
-		return (printf("INVALID IMPUT\n"));
+	|| data->time_to_sleep <= 0)
+{
+	printf("INVALID INPUT\n");
+	printf("salgo por input inválido\n");
+	return (1);
+}
+
 	data->dead = 0;
 	data->finish = 0;
-	pthread_mutex_init(&data->print_mutex, 0);
-	pthread_mutex_init(&data->lock, 0);
+	if (pthread_mutex_init(&data->print_mutex, NULL)
+		|| pthread_mutex_init(&data->lock, NULL))
+		return (1);
 	return (0);
 }
 
@@ -99,24 +110,27 @@ int	i_forks(t_data *data)
 
 int	main(int argc, char **argv)
 {
-	//printf("antes de empezar\n");
-
 	t_data	data;
 
-	if (argc < 5 || argc > 6)
+	if (argc != 5 && argc != 6)
+	{
+		printf("INVALID INPUT\n");
 		return (1);
-	//printf("antes de i_data\n");
-	i_data(&data, argc, argv);
-	//printf("antes de mallloc\n");
-	ft_malloc(&data);
-	//printf("antes de i_forks\n");
-	i_forks(&data);
-	//printf("antes de i_philos\n");
+	}
+	if (i_data(&data, argc, argv) != 0)
+	{
+		printf("Entrada inválida detectada, saliendo...\n");
+		return (1);
+	}
+	if (ft_malloc(&data) != 0)
+		return (ft_exit(&data));
+	if (i_forks(&data) != 0)
+		return (ft_exit(&data));
 	i_philos(&data);
 	if (data.n_philos == 1)
-		return(one_philo(&data));
-	i_dinner(&data);
-	//printf("antes de salir\n");
+		return (one_philo(&data));
+	if (i_dinner(&data) != 0)
+		return (ft_exit(&data));
 	ft_exit(&data);
 	return (0);
 }

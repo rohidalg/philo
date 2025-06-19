@@ -6,13 +6,14 @@
 /*   By: rohidalg <rohidalg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 10:24:05 by rohidalg          #+#    #+#             */
-/*   Updated: 2025/06/18 16:00:33 by rohidalg         ###   ########.fr       */
+/*   Updated: 2025/06/19 16:04:55 by rohidalg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
 
+#include <inttypes.h>
 # include <pthread.h>
 # include <stdint.h>
 # include <stdio.h>
