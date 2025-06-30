@@ -9,6 +9,7 @@ CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
 SRCs = philo.c \
 		utils.c \
 		options.c \
+		actions.c
 
 
 

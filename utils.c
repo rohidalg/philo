@@ -6,7 +6,7 @@
 /*   By: rohidalg <rohidalg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 11:07:17 by rohidalg          #+#    #+#             */
-/*   Updated: 2025/06/19 15:31:51 by rohidalg         ###   ########.fr       */
+/*   Updated: 2025/06/30 17:54:36 by rohidalg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,27 +65,25 @@ int	ft_usleep(__useconds_t time)
 
 int	ft_exit(t_data *data)
 {
-	int	i = 0;
+	int	i;
 
+	i = 0;
 	while (i < data->n_philos)
 	{
-		pthread_mutex_destroy(&data->forks[i]);        
-		pthread_mutex_destroy(&data->philos[i].lock);   
+		pthread_mutex_destroy(&data->forks[i]);
+		pthread_mutex_destroy(&data->philos[i].lock);
 		i++;
 	}
 	pthread_mutex_destroy(&data->print_mutex);
 	pthread_mutex_destroy(&data->lock);
-
 	if (data->tid)
 		free(data->tid);
 	if (data->philos)
 		free(data->philos);
 	if (data->forks)
 		free(data->forks);
-
 	return (1);
 }
-
 
 int	ft_malloc(t_data *data)
 {
@@ -107,4 +105,3 @@ int	ft_malloc(t_data *data)
 	}
 	return (0);
 }
-

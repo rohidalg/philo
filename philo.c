@@ -6,7 +6,7 @@
 /*   By: rohidalg <rohidalg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 09:33:26 by rohidalg          #+#    #+#             */
-/*   Updated: 2025/06/19 16:07:53 by rohidalg         ###   ########.fr       */
+/*   Updated: 2025/06/30 17:52:38 by rohidalg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,6 @@ uint64_t	ft_get_time(void)
 	if (gettimeofday(&tv, 0))
 		return (printf("ft_get_time() FAILUREN\n"));
 	return ((tv.tv_sec * (uint64_t)1000) + (tv.tv_usec / 1000));
-}
-
-void	ft_write(char *str, t_philo *philo)
-{
-	int	time;
-
-	pthread_mutex_lock(&philo->data->print_mutex);
-	time = ft_get_time() - philo->data->start_time;
-	if (philo->data->dead == 0 && ft_strcmp(DIED, str) == 0)
-	{
-		printf("%u %d %s\n", time, philo->id, str);
-		philo->data->dead = 1;
-	}
-	if (!philo->data->dead)
-		printf("%u %d %s\n", time, philo->id, str);
-	pthread_mutex_unlock(&philo->data->print_mutex);
 }
 
 void	i_philos(t_data *data)
@@ -57,6 +41,12 @@ void	i_philos(t_data *data)
 
 int	i_data(t_data *data, int argc, char **argv)
 {
+	if (ft_atoi(argv[1]) <= 0 || ft_atoi(argv[2]) <= 0 || ft_atoi(argv[3]) <= 0
+		|| ft_atoi(argv[4]) <= 0 || (argc == 6 && ft_atoi(argv[5]) <= 0))
+	{
+		printf("INVALID INPUT\n");
+		return (1);
+	}
 	data->n_philos = (int)ft_atoi(argv[1]);
 	data->time_to_die = (int)ft_atoi(argv[2]);
 	data->time_to_eat = (int)ft_atoi(argv[3]);
@@ -65,19 +55,6 @@ int	i_data(t_data *data, int argc, char **argv)
 		data->meals_required = (int)ft_atoi(argv[5]);
 	else
 		data->meals_required = -1;
-	printf("DEBUG INPUTS:\n");
-	printf("n_philos = %d\n", data->n_philos);
-	printf("time_to_die = %ld\n", data->time_to_die);
-	printf("time_to_eat = %ld\n", data->time_to_eat);
-	printf("time_to_sleep = %ld\n", data->time_to_sleep);
-	if (data->n_philos <= 0 || data->time_to_die <= 0 || data->time_to_eat <= 0
-	|| data->time_to_sleep <= 0)
-{
-	printf("INVALID INPUT\n");
-	printf("salgo por input inválido\n");
-	return (1);
-}
-
 	data->dead = 0;
 	data->finish = 0;
 	if (pthread_mutex_init(&data->print_mutex, NULL)
@@ -118,10 +95,7 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	if (i_data(&data, argc, argv) != 0)
-	{
-		printf("Entrada inválida detectada, saliendo...\n");
 		return (1);
-	}
 	if (ft_malloc(&data) != 0)
 		return (ft_exit(&data));
 	if (i_forks(&data) != 0)
