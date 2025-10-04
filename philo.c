@@ -6,7 +6,7 @@
 /*   By: rohidalg <rohidalg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 09:33:26 by rohidalg          #+#    #+#             */
-/*   Updated: 2025/06/30 17:52:38 by rohidalg         ###   ########.fr       */
+/*   Updated: 2025/10/04 16:49:07 by rohidalg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,3 +166,8 @@ int	main(int argc, char **argv)
 
 // pthread_mutex_unlock(pthread_mutex_t *mutex)
 // Libera el mutex para que otros hilos puedan usarlo.
+
+// CON EL EJEMPLO DE ./philo 2000 1000 1000 5 SE QUEDA 
+// PENSANDO UN SEGUNDO ANTES DE ACABAR LO QUE SIGINIFICA QUE ESTA MAL Y ME LO PUEDEN 
+// TIRAR POR ESO ASI QUE CORRIGELO CUANDO LO VEAS, SE SUPONE QUE LO PONE EN EL SUBJECT 
+// DE QUE SI MUERE TIENE QUE ACABAR AL INSTANNTE
