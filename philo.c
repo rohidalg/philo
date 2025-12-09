@@ -6,7 +6,7 @@
 /*   By: rohidalg <rohidalg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 09:33:26 by rohidalg          #+#    #+#             */
-/*   Updated: 2025/10/04 16:49:07 by rohidalg         ###   ########.fr       */
+/*   Updated: 2025/12/09 17:51:57 by rohidalg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	i_philos(t_data *data)
 	i = 0;
 	while (i < data->n_philos)
 	{
-		data->philos[i].data = data;
+		data->philos[i].data = data; // puntero al cerebro
 		data->philos[i].id = i + 1;
 		data->philos[i].time_to_die = data->time_to_die;
 		data->philos[i].eating = 0;
@@ -38,6 +38,8 @@ void	i_philos(t_data *data)
 		i++;
 	}
 }
+// le da vida a cada filosofo,
+	y le ponemos un mutex para que todo se haga en su orden.
 
 int	i_data(t_data *data, int argc, char **argv)
 {
@@ -62,6 +64,8 @@ int	i_data(t_data *data, int argc, char **argv)
 		return (1);
 	return (0);
 }
+// inicializamos todo, comprobamos que los argumentos esten bien
+// y ponemos los mutex correspondientes
 
 int	i_forks(t_data *data)
 {
@@ -84,6 +88,8 @@ int	i_forks(t_data *data)
 	}
 	return (0);
 }
+// le pone un tenedor(mutex) a cada philo, y hacemos que el primer filosofo
+// comparta con el ultimo para hacerlo circular.
 
 int	main(int argc, char **argv)
 {
@@ -114,11 +120,13 @@ int	main(int argc, char **argv)
 
 // 🧠 Funciones de memoria
 // memset(void *s, int c, size_t n)
-// Rellena los primeros n bytes del bloque de memoria apuntado por s con el byte c.
+// Rellena los primeros n bytes del bloque de memoria apuntado
+// por s con el byte c.
 // 👉 Se usa para inicializar arrays o estructuras.
 
 // malloc(size_t size)
-// Reserva dinámicamente size bytes de memoria en el heap y devuelve un puntero al comienzo.
+// Reserva dinámicamente size bytes de memoria en el heap y
+// devuelve un puntero al comienzo.
 // 👉 Recuerda liberar con free.
 
 // free(void *ptr)
@@ -139,16 +147,18 @@ int	main(int argc, char **argv)
 // 👉 usleep(1000) duerme 1 milisegundo.
 
 // gettimeofday(struct timeval *tv, struct timezone *tz)
-// Llena la estructura tv con el tiempo actual (segundos y microsegundos desde Epoch).
+// Llena la estructura tv con el tiempo actual
+//(segundos y microsegundos desde Epoch).
 // 👉 Se usa para medir tiempos con precisión.
 
 // 🧵 Funciones de hilos (pthread)
-// pthread_create(pthread_t *thread,	const pthread_attr_t *attr,void *(*start_routine)(void *),
-//	void *arg)
+// pthread_create(pthread_t *thread,	const pthread_attr_t *attr,
+// void *(*start_routine)(void *),void *arg)
 // Crea un nuevo hilo que ejecuta la función start_routine con el argumento arg.
 
 // pthread_detach(pthread_t thread)
-// Desvincula un hilo del hilo principal,permitiendo que sus recursos se liberen automáticamente cuando termine.
+// Desvincula un hilo del hilo principal,permitiendo que sus recursos se liberen
+// automáticamente cuando termine.
 // 👉 Ya no se puede hacer pthread_join sobre él.
 
 // pthread_join(pthread_t thread, void **retval)
@@ -167,7 +177,8 @@ int	main(int argc, char **argv)
 // pthread_mutex_unlock(pthread_mutex_t *mutex)
 // Libera el mutex para que otros hilos puedan usarlo.
 
-// CON EL EJEMPLO DE ./philo 2000 1000 1000 5 SE QUEDA 
-// PENSANDO UN SEGUNDO ANTES DE ACABAR LO QUE SIGINIFICA QUE ESTA MAL Y ME LO PUEDEN 
-// TIRAR POR ESO ASI QUE CORRIGELO CUANDO LO VEAS, SE SUPONE QUE LO PONE EN EL SUBJECT 
+// CON EL EJEMPLO DE ./philo 2000 1000 1000 5 SE QUEDA
+// PENSANDO UN SEGUNDO ANTES DE ACABAR LO QUE SIGINIFICA QUE ESTA MAL Y ME
+// LO PUEDEN TIRAR POR ESO ASI QUE CORRIGELO CUANDO LO VEAS,
+//	SE SUPONE QUE LO PONE EN EL SUBJECT
 // DE QUE SI MUERE TIENE QUE ACABAR AL INSTANNTE

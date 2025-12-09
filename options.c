@@ -6,7 +6,7 @@
 /*   By: rohidalg <rohidalg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 13:25:54 by rohidalg          #+#    #+#             */
-/*   Updated: 2025/06/30 18:15:51 by rohidalg         ###   ########.fr       */
+/*   Updated: 2025/12/09 17:51:48 by rohidalg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int	one_philo(t_data *data)
 	ft_exit(data);
 	return (0);
 }
+// como solo hay un tenedor no podra comer porque necesita 2,
+// asi que esperara su muerte
 
 void	*manager(void *data_pointer)
 {
@@ -121,3 +123,6 @@ int	i_dinner(t_data *data)
 	}
 	return (0);
 }
+// ponemos a funcionar e manager y que supervise la cena si alguien muere,
+// creamos todos los hilos de los filosofos y añadimos el microsegundo para
+// que no haya errores por crearse todo a la vez.

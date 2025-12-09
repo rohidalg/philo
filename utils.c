@@ -6,7 +6,7 @@
 /*   By: rohidalg <rohidalg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 11:07:17 by rohidalg          #+#    #+#             */
-/*   Updated: 2025/06/30 17:54:36 by rohidalg         ###   ########.fr       */
+/*   Updated: 2025/12/09 16:21:43 by rohidalg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,3 +105,4 @@ int	ft_malloc(t_data *data)
 	}
 	return (0);
 }
+// reservamos memoria para todo.
